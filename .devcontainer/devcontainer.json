@@ -1,0 +1,17 @@
+{
+    "name": "Manim Slides",
+    "image": "manimcommunity/manim:latest",
+    "postCreateCommand": "pip install 'manim-slides[full]'",
+    "remoteEnv": {
+        "PATH": "${containerEnv:PATH}:/manim/.local/bin"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "charliermarsh.ruff",
+                "rickaym.manim-sideview"
+            ]
+        }
+    }
+}
