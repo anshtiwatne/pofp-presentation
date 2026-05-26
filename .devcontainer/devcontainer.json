@@ -1,6 +1,11 @@
 {
     "name": "Manim Slides",
     "image": "manimcommunity/manim:latest",
+    "features": {
+        "ghcr.io/devcontainers/features/git": {
+            "version": "latest"
+        }
+    },
     "postCreateCommand": "pip install 'manim-slides[full]'",
     "remoteEnv": {
         "PATH": "${containerEnv:PATH}:/manim/.local/bin"
