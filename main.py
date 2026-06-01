@@ -525,7 +525,7 @@ class Main(Slide):
 			output_list.scale_to_fit_width(10.2)
 
 		output_list_shift = LEFT * 1.4
-		output_tail = MathTex(r"= P([2, 3, 1]) !", font_size=34, color=WHITE)
+		output_tail = MathTex(r"= \mathrm{Perm}([2, 3, 1]) !", font_size=34, color=WHITE)
 		output_tail.next_to(output_list, RIGHT, buff=0.35)
 		output_tail.align_to(output_list, DOWN)
 		output_tail.shift(output_list_shift)
@@ -930,7 +930,7 @@ class Main(Slide):
 		# statement with the final permutation-set expression after pruning.
 		sel_duplicates_text = Text("We get duplicates!", font_size=34, color=WHITE)
 		sel_duplicates_text.to_edge(DOWN, buff=0.35)
-		sel_output_suffix = MathTex(r"= P([2, 3, 1])", font_size=34, color=WHITE)
+		sel_output_suffix = MathTex(r"= \mathrm{Perm}([2, 3, 1])", font_size=34, color=WHITE)
 		sel_output_suffix.move_to(sel_duplicates_text.get_center())
 
 		sel_yellow_duplicate_color = YELLOW_C
@@ -1568,7 +1568,7 @@ class Main(Slide):
 		self.next_slide()
 
 		bubble_note_final = Text(
-			"= P([1, 2, 3])",
+			"= \\mathrm{Perm}([1, 2, 3])",
 			font_size=28,
 			color=WHITE,
 		)
@@ -2147,6 +2147,42 @@ class Main(Slide):
 		# Highlight Box and Label
 		highlight_box = SurroundingRectangle(ys, color=YELLOW, buff=0.15)
 		self.play(Create(highlight_box))
+
+		self.next_slide()
+
+		def morph_array_labels(current_group, target_group):
+			current_labels = [node[1] for node in current_group]
+			target_labels = [node[1] for node in target_group]
+			return LaggedStart(
+				*[ReplacementTransform(current, target) for current, target in zip(current_labels, target_labels)],
+				lag_ratio=0.18,
+			)
+
+		pis_step1 = create_array([1, 2, 0], COLOR_INDEX, WHITE, scale=0.8)
+		pis_step1.move_to(pis.get_center())
+		ys_step1 = create_array(['B', 'C', 'A'], COLOR_DATA, WHITE, scale=0.7)
+		ys_step1.move_to(ys.get_center())
+
+		self.play(
+			morph_array_labels(pis, pis_step1),
+			morph_array_labels(ys, ys_step1),
+			run_time=1.0,
+		)
+		pis = pis_step1
+		ys = ys_step1
+
+		self.next_slide()
+
+		pis_step2 = create_array([0, 2, 1], COLOR_INDEX, WHITE, scale=0.8)
+		pis_step2.move_to(pis.get_center())
+		ys_step2 = create_array(['C', 'B', 'A'], COLOR_DATA, WHITE, scale=0.7)
+		ys_step2.move_to(ys.get_center())
+
+		self.play(
+			morph_array_labels(pis, pis_step2),
+			morph_array_labels(ys, ys_step2),
+			run_time=1.0,
+		)
 
 		self.next_slide()
 
