@@ -4,7 +4,7 @@ import numpy as np
 
 from manim import *
 from manim_slides import Slide
-from lambda_creature import ExpressionLambda
+from lambda_creature import LambdaCreature
 
 
 def creature_look_at_animation(creature, point):
@@ -93,7 +93,7 @@ class Main(Slide):
 
 		self.next_slide()
 
-		# Voiceover/Intent: Transition into an insertion sort demo after the title card.
+		
 		self.play(
 			AnimationGroup(*[FadeOut(page) for page in page_stack], lag_ratio=0.0),
 			FadeOut(title_block, shift=0.15 * LEFT),
@@ -168,7 +168,7 @@ class Main(Slide):
 			key_cell = cells_order[i]
 			key_value = values_order[i]
 
-			# Voiceover/Intent: Drop the key below the row and step through comparisons.
+			
 			sorted_cells = set(cells_order[:i])
 			set_insert_colors(sorted_cells, key_cell=key_cell)
 
@@ -215,7 +215,7 @@ class Main(Slide):
 			sorted_cells.add(key_cell)
 			set_insert_colors(sorted_cells)
 			if i == len(values_order) - 1:
-				# Ensure final color updates are flushed before the next slide pause.
+				
 				self.wait(0.01)
 
 		self.next_slide()
@@ -270,7 +270,7 @@ class Main(Slide):
 
 		cmp_part = insert_expr.get_part_by_tex(r"\mathrm{cmp}")
 
-		# Detach cmp_part from insert_expr so it doesn't get faded out or removed
+		
 		insert_expr.remove(cmp_part)
 		self.add(cmp_part)
 
@@ -487,9 +487,9 @@ class Main(Slide):
 			stroke_width=3,
 		)
 
-		# Voiceover/Intent: Build the output list from individual MathTex
-		# entries so we can animate each leaf flying down to its slot.
-		# Order follows the tree's left-to-right layout.
+		
+		
+		
 		leaves_in_order = [
 			(leaf_321, r"[3, 2, 1]"),
 			(leaf_312, r"[3, 1, 2]"),
@@ -499,7 +499,7 @@ class Main(Slide):
 			(leaf_123, r"[1, 2, 3]"),
 		]
 
-		# Build individual MathTex pieces for the output list.
+		
 		output_open = MathTex(r"\big[", font_size=34, color=WHITE)
 		output_close = MathTex(r"\big]", font_size=34, color=WHITE)
 		output_entries = []
@@ -511,7 +511,7 @@ class Main(Slide):
 				comma = MathTex(r",", font_size=34, color=WHITE)
 				output_commas.append(comma)
 
-		# Assemble into a VGroup: [ entry, entry, ... entry ]
+		
 		all_parts = [output_open]
 		for i, entry in enumerate(output_entries):
 			all_parts.append(entry)
@@ -564,8 +564,8 @@ class Main(Slide):
 
 		self.next_slide()
 
-		# Voiceover/Intent: Rewrite the specific coinCmp calls into the shared
-		# comparison predicate before we show the output permutation list.
+		
+		
 		cmp_rewrite_sources = [
 			cmp_23,
 			cmp_13_left,
@@ -594,13 +594,13 @@ class Main(Slide):
 			cmp_rewrite_targets
 		)
 
-		# --- Beautiful leaf-copy animation ---
-		# Voiceover/Intent: Copies of each leaf glow and then fly down from
-		# the tree to assemble the output permutation list at the bottom.
+		
+		
+		
 
 		self.next_slide()
 
-		# Step 1: Highlight every leaf to draw attention.
+		
 		leaf_mobjects = [pair[0] for pair in leaves_in_order]
 		self.play(
 			LaggedStart(
@@ -613,13 +613,13 @@ class Main(Slide):
 			run_time=1.0,
 		)
 
-		# Step 2: Fade in the bracket / comma scaffold (no entries yet).
+		
 		scaffold = VGroup(output_open, output_close, *output_commas)
 		self.play(FadeIn(scaffold, shift=0.08 * UP), run_time=0.5)
 
-		# Step 3: Animate copies of each leaf flying down to their slot
-		# using TransformFromCopy (original stays in tree, copy morphs
-		# into the target entry).
+		
+		
+		
 		self.play(
 			LaggedStart(
 				*[
@@ -669,10 +669,9 @@ class Main(Slide):
 
 		self.play(FadeOut(tree_group, shift=0.1 * DOWN), run_time=0.8)
 
-		quote_creature = ExpressionLambda(
-			body_color="#5e5086", eye_color=WHITE, pupil_color=BLACK, height=1.7
-		)
-		quote_creature.move_to(ORIGIN + RIGHT * 0.7 + DOWN * 0.2)
+		quote_creature = LambdaCreature(body_color=PURPLE)
+		quote_creature.scale(1.12)
+		quote_creature.move_to(ORIGIN + DOWN * 0.2)
 		quote_creature.set_z_index(12)
 
 		self.play(
@@ -697,9 +696,10 @@ class Main(Slide):
 			stroke_width=2,
 			fill_opacity=0,
 		)
-		speech_bubble.next_to(quote_creature, UP + LEFT, buff=0.02)
-		speech_bubble.shift(UP * 0.06 + LEFT * 0.03)
+		speech_bubble.next_to(quote_creature, UP, buff=0.02)
+		speech_bubble.shift(UP * 0.06)
 		speech_text.move_to(speech_bubble.get_center())
+		speech_text.shift(DOWN * 0.08)
 		speech_bubble_group = VGroup(speech_bubble, speech_text)
 		speech_bubble_group.set_z_index(11)
 
@@ -747,7 +747,7 @@ class Main(Slide):
 		).arrange(DOWN, buff=0.26)
 		selection_block.move_to(ORIGIN + UP * 0.1)
 
-		# Reveal selection explanation sequentially (top-down): title, step1, arrow, step2, arrow, step3
+		
 		self.play(FadeIn(selection_title, shift=0.08 * DOWN), run_time=0.6)
 		self.play(FadeIn(selection_step1, shift=0.06 * DOWN), run_time=0.45)
 		self.play(FadeIn(selection_arrow1, shift=0.03 * DOWN), run_time=0.35)
@@ -926,8 +926,8 @@ class Main(Slide):
 			stroke_width=3,
 		)
 
-		# Voiceover/Intent: Call out duplicate leaves, then replace that
-		# statement with the final permutation-set expression after pruning.
+		
+		
 		sel_duplicates_text = Text("We get duplicates!", font_size=34, color=WHITE)
 		sel_duplicates_text.to_edge(DOWN, buff=0.35)
 		sel_output_suffix = MathTex(r"= \mathrm{Perm}([2, 3, 1])", font_size=34, color=WHITE)
@@ -1207,7 +1207,7 @@ class Main(Slide):
 		).arrange(DOWN, buff=0.26)
 		bubble_block.move_to(ORIGIN)
 
-		# Reveal bubble explanation sequentially (top-down): title, step1, arrow, step2, arrow, step3, arrow, step4
+		
 		self.play(FadeIn(bubble_title, shift=0.08 * DOWN), run_time=0.6)
 		self.play(FadeIn(bubble_step1, shift=0.06 * DOWN), run_time=0.45)
 		self.play(FadeIn(bubble_arrow1, shift=0.03 * DOWN), run_time=0.35)
@@ -1539,9 +1539,9 @@ class Main(Slide):
 		bubble_cmp_32_right_slashed.move_to(bubble_cmp_32_right.get_center())
 		self.play(
 			ReplacementTransform(bubble_cmp_32_right, bubble_cmp_32_right_slashed),
-			# At this moment the left branch is intentionally still dimmed/gray.
-			# Flip the visible branch color semantics on the right branch now.
-			bubble_line_32_right_right.animate.set_color(bubble_false_color),
+			
+			
+			bubble_line_32_right_right.animate.set_color(bubble_true_color),
 			run_time=0.8,
 		)
 		bubble_tree_group.remove(bubble_cmp_32_right)
@@ -1567,8 +1567,8 @@ class Main(Slide):
 
 		self.next_slide()
 
-		bubble_note_final = Text(
-			"= \\mathrm{Perm}([1, 2, 3])",
+		bubble_note_final = MathTex(
+			r"= \mathrm{Perm}([1, 2, 3])",
 			font_size=28,
 			color=WHITE,
 		)
@@ -1662,7 +1662,7 @@ class Main(Slide):
 		).arrange(DOWN, buff=0.26)
 		patience_block.move_to(ORIGIN)
 
-		# Reveal patience explanation sequentially (top-down): title, step1, arrow, step2, arrow, step3
+		
 		self.play(FadeIn(patience_title, shift=0.08 * DOWN), run_time=0.6)
 		self.play(FadeIn(patience_step1, shift=0.06 * DOWN), run_time=0.45)
 		self.play(FadeIn(patience_arrow1, shift=0.03 * DOWN), run_time=0.35)
@@ -1687,7 +1687,7 @@ class Main(Slide):
 		cards = []
 		for code, value in card_specs:
 			card = ImageMobject(str(asset_dir / "cards" / f"{code}.png"))
-			# Slightly larger cards for clarity
+			
 			card.scale_to_fit_height(1.9)
 			cards.append((card, value))
 
@@ -1735,12 +1735,12 @@ class Main(Slide):
 			moves.append(card.animate.move_to(target))
 		self.play(LaggedStart(*moves, lag_ratio=0.2), run_time=2.5)
 
-		# Compute piles mapping (pile_index -> list of (card, depth))
+		
 		piles = {}
 		for card, pile_index, depth in placements:
 			piles.setdefault(pile_index, []).append((card, depth))
 
-		# Identify top cards for each pile (not used visually here but kept for clarity)
+		
 		top_cards = []
 		for i in range(pile_count):
 			group = piles.get(i, [])
@@ -1749,8 +1749,8 @@ class Main(Slide):
 			top = min(group, key=lambda t: t[1])[0]
 			top_cards.append(top)
 
-		# Show the final merged output by moving the existing cards into
-		# increasing numeric order from left to right.
+		
+		
 		sorted_cards = sorted(cards, key=lambda cv: cv[1])
 		final_row_y = cards_group.get_center()[1]
 		final_spacing = sorted_cards[0][0].width + 0.2
@@ -1760,7 +1760,7 @@ class Main(Slide):
 			for i in range(len(sorted_cards))
 		]
 
-		# Animate the actual cards from the piles into the sorted row.
+		
 		transforms = [
 			card.animate.move_to(pos).set_z_index(12)
 			for (card, _), pos in zip(sorted_cards, final_row_positions)
@@ -2016,7 +2016,7 @@ class Main(Slide):
 		final_quote_block.next_to(quote_formula_target, DOWN, buff=0.8)
 		self.play(Write(final_quote_block), run_time=1.3)
 
-		# Clear the final quote before appending the proof slide
+		
 		self.next_slide()
 		self.play(
 			FadeOut(final_quote_block, shift=0.08 * DOWN),
@@ -2025,15 +2025,14 @@ class Main(Slide):
 		)
 
 
-		# --- Inserted: Commutative Square (from proof.py, slide 2) ---
+		
 
-		# Colors used in the proof slide
+		
 		COLOR_INDEX = BLUE_C
 		COLOR_DATA = RED_C
-		COLOR_RELATION = GOLD_C
 		COLOR_MULTIVERSE = PURPLE_C
 
-		# Helper to create small arrays (copied from proof.py)
+		
 		def create_array(elements, box_color=WHITE, text_color=BLACK, scale=1.0):
 			arr = VGroup()
 			for el in elements:
@@ -2044,99 +2043,114 @@ class Main(Slide):
 			arr.arrange(RIGHT, buff=0.1).scale(scale)
 			return arr
 
-		# Positions for the square corners
+		
 		TL = UP * 1.5 + LEFT * 3.8
 		TR = UP * 1.5 + RIGHT * 3.8
 		BL = DOWN * 1.7 + LEFT * 3.8
 		BR = DOWN * 1.7 + RIGHT * 3.8
 
-		# Top-left: Permuted indices
+		
 		pis = create_array([2, 0, 1], COLOR_INDEX, WHITE, scale=0.8)
 		pis.move_to(TL)
-		label_pis = Tex("Permuted Indices", font_size=28).next_to(pis, UP, buff=0.2)
+		label_pis = Tex("Permuted Indices", font_size=28, color=WHITE).next_to(
+			pis, UP, buff=0.2
+		)
 		self.play(FadeIn(VGroup(pis, label_pis)))
 
 		self.next_slide()
 
-		# Top-right: Sorted indices
+		
 		iss = create_array([0, 1, 2], COLOR_INDEX, WHITE, scale=0.8)
 		iss.move_to(TR)
-		label_iss = Tex("Sorted Indices", font_size=28).next_to(iss, UP, buff=0.2)
+		label_iss = Tex("Sorted Indices", font_size=28, color=WHITE).next_to(
+			iss, UP, buff=0.2
+		)
 
-		arrow_sort = Arrow(pis.get_right(), iss.get_left(), buff=0.4, color=WHITE)
-		label_sort = Tex("Deterministic Sort", font_size=30).next_to(arrow_sort, UP, buff=0.2)
+		arrow_sort = Arrow(pis.get_right(), iss.get_left(), buff=0.4, color=YELLOW)
+		label_sort = Tex(
+			"Deterministic Sort", font_size=30, color=WHITE
+		).next_to(arrow_sort, UP, buff=0.2)
 
 		self.play(GrowArrow(arrow_sort), FadeIn(label_sort))
 		self.play(FadeIn(VGroup(iss, label_iss)))
 
 		self.next_slide()
 
-		# Bottom-left: input data xs
+		
 		xs = create_array(['C', 'A', 'B'], COLOR_DATA, WHITE, scale=0.8)
 		xs.move_to(BL)
-		label_xs = Tex("Input Data ($xs$)", font_size=28).next_to(xs, DOWN, buff=0.2)
+		label_xs = Tex("Input Data ($xs$)", font_size=28, color=WHITE).next_to(
+			xs, DOWN, buff=0.2
+		)
 
-		arrow_rel_L = Arrow(pis.get_bottom(), xs.get_top(), buff=0.4, color=COLOR_RELATION)
-		label_rel_L = Tex("Map to Data", color=COLOR_RELATION, font_size=28).next_to(arrow_rel_L, RIGHT, buff=0.2)
+		arrow_rel_L = Arrow(pis.get_bottom(), xs.get_top(), buff=0.4, color=BLUE_C)
+		label_rel_L = Tex("Map to Data", color=WHITE, font_size=28).next_to(
+			arrow_rel_L, RIGHT, buff=0.2
+		)
 
 		self.play(GrowArrow(arrow_rel_L), FadeIn(label_rel_L))
 		self.play(FadeIn(VGroup(xs, label_xs)))
 
 		self.next_slide()
 
-		# Bottom-right: branching outcomes cloud
+		
 		cloud = Ellipse(width=4.8, height=2.8, color=COLOR_MULTIVERSE, fill_opacity=0.15)
 		cloud.move_to(BR)
-		label_cloud = Tex("Branching Outcomes", color=COLOR_MULTIVERSE, font_size=28).next_to(cloud, DOWN, buff=0.15)
+		label_cloud = Tex("Branching Outcomes", color=WHITE, font_size=28).next_to(
+			cloud, DOWN, buff=0.15
+		)
 
 		mini_1 = create_array(['C', 'A', 'B'], COLOR_DATA, WHITE, scale=0.35).move_to(cloud.get_center() + UP * 0.6 + LEFT * 1.0)
 		mini_2 = create_array(['B', 'C', 'A'], COLOR_DATA, WHITE, scale=0.35).move_to(cloud.get_center() + DOWN * 0.6 + RIGHT * 0.8)
 		mini_dots = Tex("...", font_size=48, color=WHITE).move_to(cloud.get_center() + UP * 0.5 + RIGHT * 1.1)
 
-		arrow_permute = Arrow(xs.get_right(), cloud.get_left(), buff=0.4, color=WHITE)
-		label_permute = Tex("Non-Deterministic Sort", font_size=30).next_to(arrow_permute, UP, buff=0.2)
+		arrow_permute = Arrow(xs.get_right(), cloud.get_left(), buff=0.4, color=BLUE_C)
+		label_permute = Tex(
+			"Non-Deterministic Sort", font_size=30, color=WHITE
+		).next_to(arrow_permute, UP, buff=0.2)
 
 		self.play(GrowArrow(arrow_permute), FadeIn(label_permute))
 		self.play(FadeIn(cloud), FadeIn(label_cloud), FadeIn(mini_1, mini_2, mini_dots))
 
 		self.next_slide()
 
-		# === SCENE 3: Wadler's Free Theorem Climax ===
+		
 		free_theorem_text = Tex(
-			"Parametric Polymorphism (Free Theorem)", font_size=36, color=YELLOW
+			"Parametric Polymorphism (Free Theorem)", font_size=36, color=WHITE
 		)
 		free_theorem_text.to_edge(UP, buff=0.3)
 		self.play(Write(free_theorem_text))
 
-		# Highlight the three existing edges
+		
 		self.play(
 			arrow_sort.animate.set_color(YELLOW),
-			arrow_rel_L.animate.set_color(YELLOW),
-			arrow_permute.animate.set_color(YELLOW),
+			arrow_rel_L.animate.set_color(BLUE_C),
+			arrow_permute.animate.set_color(BLUE_C),
 			run_time=1,
 		)
 
 		self.next_slide()
 
-		# Right Edge: reveal mapping back to the cloud
+		
 		arrow_rel_R = Arrow(
 			iss.get_bottom(),
 			cloud.get_top(),
 			buff=0.4,
-			color=COLOR_RELATION,
-			stroke_width=arrow_sort.stroke_width,
+			color=YELLOW,
 		)
-		label_rel_R = Tex("Map to Data", color=COLOR_RELATION, font_size=28).next_to(arrow_rel_R, LEFT, buff=0.2)
+		label_rel_R = Tex("Map to Data", color=WHITE, font_size=28).next_to(
+			arrow_rel_R, LEFT, buff=0.2
+		)
 
 		self.play(GrowArrow(arrow_rel_R), FadeIn(label_rel_R))
 
 		self.next_slide()
 
-		# Reveal the Target Array inside the smaller ellipse
+		
 		ys = create_array(['A', 'B', 'C'], COLOR_DATA, WHITE, scale=0.7)
 		ys.move_to(cloud.get_center() + DOWN * 0.1)
 
-		# Dim background options and bring in the target
+		
 		self.play(
 			mini_1.animate.set_opacity(0.15),
 			mini_2.animate.set_opacity(0.15),
@@ -2144,7 +2158,7 @@ class Main(Slide):
 			FadeIn(ys, shift=DOWN),
 		)
 
-		# Highlight Box and Label
+		
 		highlight_box = SurroundingRectangle(ys, color=YELLOW, buff=0.15)
 		self.play(Create(highlight_box))
 
@@ -2186,9 +2200,9 @@ class Main(Slide):
 
 		self.next_slide()
 
-		# Final blank slide: clear everything and capture an empty frame on next.
-		# Fade out any remaining mobjects, wait briefly, then emit a slide boundary
-		# so the presentation ends on a blank slide.
+		
+		
+		
 		self.play(FadeOut(Group(*self.mobjects), shift=0.08 * DOWN), run_time=0.6)
 		self.wait(0.01)
 		self.next_slide()
