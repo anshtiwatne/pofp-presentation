@@ -43,8 +43,8 @@ class Main(Slide):
 		]
 
 		stack_origin = ORIGIN
-		reveal_origin = LEFT * 5.0 + UP * 0.95
 		page_stack = []
+
 		for index, page_file in enumerate(page_files):
 			page = ImageMobject(str(page_file))
 			page.scale_to_fit_height(5.9)
@@ -93,7 +93,6 @@ class Main(Slide):
 
 		self.next_slide()
 
-		
 		self.play(
 			AnimationGroup(*[FadeOut(page) for page in page_stack], lag_ratio=0.0),
 			FadeOut(title_block, shift=0.15 * LEFT),
@@ -168,7 +167,6 @@ class Main(Slide):
 			key_cell = cells_order[i]
 			key_value = values_order[i]
 
-			
 			sorted_cells = set(cells_order[:i])
 			set_insert_colors(sorted_cells, key_cell=key_cell)
 
@@ -215,7 +213,6 @@ class Main(Slide):
 			sorted_cells.add(key_cell)
 			set_insert_colors(sorted_cells)
 			if i == len(values_order) - 1:
-				
 				self.wait(0.01)
 
 		self.next_slide()
@@ -242,16 +239,19 @@ class Main(Slide):
 			leaf.move_to(target)
 			leaf_labels.add(leaf)
 			branch_end = leaf.get_top() + UP * 0.18
-			branch_lines.add(
-				Line(tree_root, branch_end, color=GREY_B, stroke_width=2)
-			)
+			branch_lines.add(Line(tree_root, branch_end, color=GREY_B, stroke_width=2))
 		branch_question = MathTex(r"?", font_size=62, color=WHITE)
 		branch_question.move_to(DOWN * 1.95)
-		branch_group = VGroup(branch_lines, branch_ellipsis, branch_question, leaf_labels)
+		branch_group = VGroup(
+			branch_lines, branch_ellipsis, branch_question, leaf_labels
+		)
 
 		self.play(
 			LaggedStart(*[Create(line) for line in branch_lines], lag_ratio=0.12),
-			LaggedStart(*[FadeIn(leaf, shift=0.08 * DOWN) for leaf in leaf_labels], lag_ratio=0.08),
+			LaggedStart(
+				*[FadeIn(leaf, shift=0.08 * DOWN) for leaf in leaf_labels],
+				lag_ratio=0.08,
+			),
 			FadeIn(branch_ellipsis, shift=0.08 * DOWN),
 			FadeIn(branch_question, shift=0.08 * DOWN),
 			run_time=1.6,
@@ -270,7 +270,6 @@ class Main(Slide):
 
 		cmp_part = insert_expr.get_part_by_tex(r"\mathrm{cmp}")
 
-		
 		insert_expr.remove(cmp_part)
 		self.add(cmp_part)
 
@@ -302,14 +301,14 @@ class Main(Slide):
 		head_coin = Circle(radius=0.9, color=GREEN_B, fill_opacity=1.0, stroke_width=4)
 		head_label = Text("H", font_size=52, color=WHITE)
 		head_group = VGroup(head_coin, head_label)
-		head_caption = Text("Yes", font_size=30, color=WHITE)
+		head_caption = Text("yes", font_size=30, color=WHITE)
 		head_block = VGroup(head_group, head_caption).arrange(DOWN, buff=0.25)
 		head_block.move_to(LEFT * 3.2)
 
 		tail_coin = Circle(radius=0.9, color=RED_B, fill_opacity=1.0, stroke_width=4)
 		tail_label = Text("T", font_size=52, color=WHITE)
 		tail_group = VGroup(tail_coin, tail_label)
-		tail_caption = Text("No", font_size=30, color=WHITE)
+		tail_caption = Text("no", font_size=30, color=WHITE)
 		tail_block = VGroup(tail_group, tail_caption).arrange(DOWN, buff=0.25)
 		tail_block.move_to(RIGHT * 3.2)
 
@@ -366,7 +365,7 @@ class Main(Slide):
 		)
 
 		title = MathTex(
-			r"\mathrm{insertSort}(\mathrm{coinCmp}, [2, 3, 1])", font_size=42
+			r"\mathrm{insertSort}(\mathrm{coinCmp}, [1, 2, 3])", font_size=42
 		)
 		title.to_edge(UP, buff=0.45)
 
@@ -487,9 +486,6 @@ class Main(Slide):
 			stroke_width=3,
 		)
 
-		
-		
-		
 		leaves_in_order = [
 			(leaf_321, r"[3, 2, 1]"),
 			(leaf_312, r"[3, 1, 2]"),
@@ -499,7 +495,6 @@ class Main(Slide):
 			(leaf_123, r"[1, 2, 3]"),
 		]
 
-		
 		output_open = MathTex(r"\big[", font_size=34, color=WHITE)
 		output_close = MathTex(r"\big]", font_size=34, color=WHITE)
 		output_entries = []
@@ -511,7 +506,6 @@ class Main(Slide):
 				comma = MathTex(r",", font_size=34, color=WHITE)
 				output_commas.append(comma)
 
-		
 		all_parts = [output_open]
 		for i, entry in enumerate(output_entries):
 			all_parts.append(entry)
@@ -525,7 +519,9 @@ class Main(Slide):
 			output_list.scale_to_fit_width(10.2)
 
 		output_list_shift = LEFT * 1.4
-		output_tail = MathTex(r"= \mathrm{Perm}([2, 3, 1]) !", font_size=34, color=WHITE)
+		output_tail = MathTex(
+			r"= \mathrm{Perm}([2, 3, 1]) !", font_size=34, color=WHITE
+		)
 		output_tail.next_to(output_list, RIGHT, buff=0.35)
 		output_tail.align_to(output_list, DOWN)
 		output_tail.shift(output_list_shift)
@@ -564,8 +560,6 @@ class Main(Slide):
 
 		self.next_slide()
 
-		
-		
 		cmp_rewrite_sources = [
 			cmp_23,
 			cmp_13_left,
@@ -594,13 +588,8 @@ class Main(Slide):
 			cmp_rewrite_targets
 		)
 
-		
-		
-		
-
 		self.next_slide()
 
-		
 		leaf_mobjects = [pair[0] for pair in leaves_in_order]
 		self.play(
 			LaggedStart(
@@ -613,13 +602,9 @@ class Main(Slide):
 			run_time=1.0,
 		)
 
-		
 		scaffold = VGroup(output_open, output_close, *output_commas)
 		self.play(FadeIn(scaffold, shift=0.08 * UP), run_time=0.5)
 
-		
-		
-		
 		self.play(
 			LaggedStart(
 				*[
@@ -704,7 +689,9 @@ class Main(Slide):
 		speech_bubble_group.set_z_index(11)
 
 		self.play(
-			creature_look_at_animation(quote_creature, speech_bubble_group.get_center()),
+			creature_look_at_animation(
+				quote_creature, speech_bubble_group.get_center()
+			),
 			FadeIn(speech_bubble_group, shift=0.1 * DOWN),
 			run_time=1.0,
 		)
@@ -747,7 +734,6 @@ class Main(Slide):
 		).arrange(DOWN, buff=0.26)
 		selection_block.move_to(ORIGIN + UP * 0.1)
 
-		
 		self.play(FadeIn(selection_title, shift=0.08 * DOWN), run_time=0.6)
 		self.play(FadeIn(selection_step1, shift=0.06 * DOWN), run_time=0.45)
 		self.play(FadeIn(selection_arrow1, shift=0.03 * DOWN), run_time=0.35)
@@ -763,7 +749,7 @@ class Main(Slide):
 		)
 
 		sel_title = MathTex(
-			r"\mathrm{selectSort}(\mathrm{coinCmp}, [2, 3, 1])", font_size=42
+			r"\mathrm{selectSort}(\mathrm{coinCmp}, [1, 2, 3])", font_size=42
 		)
 		sel_title.to_edge(UP, buff=0.45)
 
@@ -926,11 +912,11 @@ class Main(Slide):
 			stroke_width=3,
 		)
 
-		
-		
 		sel_duplicates_text = Text("We get duplicates!", font_size=34, color=WHITE)
 		sel_duplicates_text.to_edge(DOWN, buff=0.35)
-		sel_output_suffix = MathTex(r"= \mathrm{Perm}([2, 3, 1])", font_size=34, color=WHITE)
+		sel_output_suffix = MathTex(
+			r"= \mathrm{Perm}([2, 3, 1])", font_size=34, color=WHITE
+		)
 		sel_output_suffix.move_to(sel_duplicates_text.get_center())
 
 		sel_yellow_duplicate_color = YELLOW_C
@@ -1007,11 +993,7 @@ class Main(Slide):
 			sel_underline_132_b,
 		}
 		sel_dim_group = VGroup(
-			*[
-				m
-				for m in sel_tree_group
-				if m not in sel_focus_targets
-			]
+			*[m for m in sel_tree_group if m not in sel_focus_targets]
 		)
 		sel_consistency_cross_left = Cross(
 			Square(side_length=0.24, stroke_width=0, fill_opacity=0), color=RED_C
@@ -1207,7 +1189,6 @@ class Main(Slide):
 		).arrange(DOWN, buff=0.26)
 		bubble_block.move_to(ORIGIN)
 
-		
 		self.play(FadeIn(bubble_title, shift=0.08 * DOWN), run_time=0.6)
 		self.play(FadeIn(bubble_step1, shift=0.06 * DOWN), run_time=0.45)
 		self.play(FadeIn(bubble_arrow1, shift=0.03 * DOWN), run_time=0.35)
@@ -1222,7 +1203,7 @@ class Main(Slide):
 		self.play(FadeOut(bubble_block, shift=0.1 * DOWN), run_time=0.6)
 
 		bubble_tree_title = MathTex(
-			r"\mathrm{bubbleSort}(\mathrm{coinCmp}, [2, 3, 1])", font_size=42
+			r"\mathrm{bubbleSort}(\mathrm{coinCmp}, [1, 2, 3])", font_size=42
 		)
 		bubble_tree_title.to_edge(UP, buff=0.45)
 
@@ -1539,8 +1520,6 @@ class Main(Slide):
 		bubble_cmp_32_right_slashed.move_to(bubble_cmp_32_right.get_center())
 		self.play(
 			ReplacementTransform(bubble_cmp_32_right, bubble_cmp_32_right_slashed),
-			
-			
 			bubble_line_32_right_right.animate.set_color(bubble_true_color),
 			run_time=0.8,
 		)
@@ -1662,7 +1641,6 @@ class Main(Slide):
 		).arrange(DOWN, buff=0.26)
 		patience_block.move_to(ORIGIN)
 
-		
 		self.play(FadeIn(patience_title, shift=0.08 * DOWN), run_time=0.6)
 		self.play(FadeIn(patience_step1, shift=0.06 * DOWN), run_time=0.45)
 		self.play(FadeIn(patience_arrow1, shift=0.03 * DOWN), run_time=0.35)
@@ -1687,7 +1665,7 @@ class Main(Slide):
 		cards = []
 		for code, value in card_specs:
 			card = ImageMobject(str(asset_dir / "cards" / f"{code}.png"))
-			
+
 			card.scale_to_fit_height(1.9)
 			cards.append((card, value))
 
@@ -1735,12 +1713,10 @@ class Main(Slide):
 			moves.append(card.animate.move_to(target))
 		self.play(LaggedStart(*moves, lag_ratio=0.2), run_time=2.5)
 
-		
 		piles = {}
 		for card, pile_index, depth in placements:
 			piles.setdefault(pile_index, []).append((card, depth))
 
-		
 		top_cards = []
 		for i in range(pile_count):
 			group = piles.get(i, [])
@@ -1749,8 +1725,6 @@ class Main(Slide):
 			top = min(group, key=lambda t: t[1])[0]
 			top_cards.append(top)
 
-		
-		
 		sorted_cards = sorted(cards, key=lambda cv: cv[1])
 		final_row_y = cards_group.get_center()[1]
 		final_spacing = sorted_cards[0][0].width + 0.2
@@ -1760,7 +1734,6 @@ class Main(Slide):
 			for i in range(len(sorted_cards))
 		]
 
-		
 		transforms = [
 			card.animate.move_to(pos).set_z_index(12)
 			for (card, _), pos in zip(sorted_cards, final_row_positions)
@@ -1888,168 +1861,345 @@ class Main(Slide):
 
 		self.play(FadeOut(transitivity_group, shift=0.08 * DOWN), run_time=0.7)
 
-		property_headers = [
-			Text("sorting algorithm", font_size=24, color=WHITE),
-			Text("consistency", font_size=24, color=WHITE),
-			Text("totality", font_size=24, color=WHITE),
-			Text("transitivity", font_size=24, color=WHITE),
+		table_headers = [
+			Text("Sorting Algorithm", font_size=24, color=BLUE_B),
+			Text("Consistency", font_size=24, color=BLUE_B),
+			Text("Totality", font_size=24, color=BLUE_B),
+			Text("Transitivity", font_size=24, color=BLUE_B),
 		]
-		property_rows = [
-			[Text("insertion sort", font_size=24, color=WHITE), Text("", font_size=24), Text("", font_size=24), Text("", font_size=24)],
-			[Text("selection sort", font_size=24, color=WHITE), Text("✓", font_size=26, color=GREEN_B), Text("", font_size=24), Text("", font_size=24)],
-			[Text("bubble sort", font_size=24, color=WHITE), Text("✓", font_size=26, color=GREEN_B), Text("✓", font_size=26, color=GREEN_B), Text("", font_size=24)],
-			[Text("patience sort", font_size=24, color=WHITE), Text("", font_size=24), Text("", font_size=24), Text("✓", font_size=26, color=GREEN_B)],
+		table_row_specs_stage1 = [
+			(
+				"Insertion Sort",
+				[
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Selection Sort",
+				[
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Bubble Sort",
+				[
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Patience Sort",
+				[
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("yes", font_size=24, color=GREEN_B),
+				],
+			),
+		]
+		table_row_specs_stage2 = [
+			(
+				"Insertion Sort",
+				[
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Heap Sort",
+				[
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Merge Sort",
+				[
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Permutation Sort",
+				[
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Quicksort",
+				[
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Selection Sort",
+				[
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("no", font_size=24, color=RED_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Bubble Sort",
+				[
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("no", font_size=24, color=RED_B),
+				],
+			),
+			(
+				"Patience Sort",
+				[
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("yes", font_size=24, color=GREEN_B),
+					Text("yes", font_size=24, color=GREEN_B),
+				],
+			),
 		]
 
-		col_widths = [3.4, 2.3, 2.0, 2.3]
-		row_heights = [0.72, 0.68, 0.68, 0.68, 0.68]
-		table_width = sum(col_widths)
-		table_height = sum(row_heights)
+		table_col_widths = [4.15, 2.05, 2.05, 2.05]
+		table_header_height = 0.56
+		table_row_height = 0.56
+		table_width = sum(table_col_widths)
 		table_left = -table_width / 2
-		table_top = table_height / 2
+		table_top = 2.75
 
-		table_cells = VGroup()
-		table_grid = VGroup()
-
-		for row_index, row in enumerate([property_headers] + property_rows):
-			y_center = table_top - sum(row_heights[:row_index]) - row_heights[row_index] / 2
-			for col_index, item in enumerate(row):
-				x_center = table_left + sum(col_widths[:col_index]) + col_widths[col_index] / 2
-				cell_box = Rectangle(
-					width=col_widths[col_index],
-					height=row_heights[row_index],
-					stroke_color=GREY_B,
-					stroke_width=2,
-					fill_opacity=0,
-				)
-				cell_box.move_to(np.array([x_center, y_center, 0]))
-				if row_index == 0:
-					if col_index == 0:
-						cell_box.set_fill(color=BLUE_C, opacity=0.18)
-					else:
-						cell_box.set_fill(color=YELLOW_C, opacity=0.18)
-				elif col_index == 0:
-					cell_box.set_fill(color=BLUE_C, opacity=0.12)
-				else:
-					cell_box.set_fill(color=YELLOW_C, opacity=0.12)
-				item.move_to(cell_box.get_center())
-				table_cells.add(cell_box, item)
-
-		for row_edge in range(1, len(row_heights)):
-			y = table_top - sum(row_heights[:row_edge])
-			table_grid.add(
-				Line(
-					np.array([table_left, y, 0]),
-					np.array([table_left + table_width, y, 0]),
-					color=GREY_B,
-					stroke_width=2,
-				)
-			)
-		for col_edge in range(1, len(col_widths)):
-			x = table_left + sum(col_widths[:col_edge])
-			table_grid.add(
-				Line(
-					np.array([x, table_top, 0]),
-					np.array([x, table_top - table_height, 0]),
-					color=GREY_B,
-					stroke_width=2,
-				)
+		def table_row_center(row_index):
+			if row_index == 0:
+				return table_top - table_header_height / 2
+			return (
+				table_top
+				- table_header_height
+				- (row_index - 1) * table_row_height
+				- table_row_height / 2
 			)
 
-		properties_table = VGroup(table_grid, table_cells)
-		properties_table.move_to(ORIGIN + DOWN * 0.05)
+		def make_row(row_index, label_text, value_mobjects):
+			y_center = table_row_center(row_index)
+			label = Text(label_text, font_size=24, color=WHITE)
+			label.move_to(np.array([table_left + 0.18 + label.width / 2, y_center, 0]))
+			row_items = [label]
+			for col_index, value in enumerate(value_mobjects, start=1):
+				x_center = (
+					table_left
+					+ sum(table_col_widths[:col_index])
+					+ table_col_widths[col_index] / 2
+				)
+				value.move_to(np.array([x_center, y_center, 0]))
+				row_items.append(value)
+			return VGroup(*row_items)
 
-		self.play(Create(table_grid), run_time=0.7)
-		self.play(FadeIn(table_cells, shift=0.04 * UP), run_time=0.8)
+		def make_horizontal_divider(after_row_index):
+			y = table_top - table_header_height - after_row_index * table_row_height
+			return Line(
+				np.array([table_left, y, 0]),
+				np.array([table_left + table_width, y, 0]),
+				color=GREY_B,
+				stroke_width=2,
+			)
+
+		def make_vertical_dividers(total_rows):
+			bottom_y = table_top - table_header_height - total_rows * table_row_height
+			return VGroup(
+				*[
+					Line(
+						np.array(
+							[
+								table_left + sum(table_col_widths[:col_edge]),
+								table_top,
+								0,
+							]
+						),
+						np.array(
+							[table_left + sum(table_col_widths[:col_edge]), bottom_y, 0]
+						),
+						color=GREY_B,
+						stroke_width=2,
+					)
+					for col_edge in range(1, len(table_col_widths))
+				]
+			)
+
+		for col_index, header_item in enumerate(table_headers):
+			if col_index == 0:
+				header_item.move_to(
+					np.array(
+						[
+							table_left + 0.18 + header_item.width / 2,
+							table_row_center(0),
+							0,
+						]
+					)
+				)
+			else:
+				x_center = (
+					table_left
+					+ sum(table_col_widths[:col_index])
+					+ table_col_widths[col_index] / 2
+				)
+				header_item.move_to(np.array([x_center, table_row_center(0), 0]))
+
+		table_rows_stage1 = VGroup(
+			*[
+				make_row(index + 1, label, values)
+				for index, (label, values) in enumerate(table_row_specs_stage1)
+			]
+		)
+		table_rows_stage2 = VGroup(
+			*[
+				make_row(index + 1, label, values)
+				for index, (label, values) in enumerate(table_row_specs_stage2)
+			]
+		)
+		table_dividers_stage1 = VGroup(
+			*[make_horizontal_divider(i) for i in range(len(table_row_specs_stage1))]
+		)
+		table_dividers_stage2 = VGroup(
+			*[make_horizontal_divider(i) for i in range(len(table_row_specs_stage2))]
+		)
+		table_verticals_stage1 = make_vertical_dividers(len(table_row_specs_stage1))
+		table_verticals_stage2 = make_vertical_dividers(len(table_row_specs_stage2))
+
+		self.play(FadeIn(VGroup(*table_headers), shift=0.04 * UP), run_time=0.5)
+		self.play(FadeIn(table_rows_stage1, shift=0.04 * UP), run_time=0.8)
+		self.play(
+			Create(table_dividers_stage1), Create(table_verticals_stage1), run_time=0.7
+		)
 
 		self.next_slide()
 
 		self.play(
-			FadeOut(properties_table, shift=0.08 * DOWN),
-			run_time=0.7,
+			AnimationGroup(
+				table_rows_stage1[1].animate.shift(DOWN * 4 * table_row_height),
+				table_rows_stage1[2].animate.shift(DOWN * 4 * table_row_height),
+				table_rows_stage1[3].animate.shift(DOWN * 4 * table_row_height),
+				lag_ratio=0.0,
+			),
+			FadeIn(
+				VGroup(
+					table_rows_stage2[1],
+					table_rows_stage2[2],
+					table_rows_stage2[3],
+					table_rows_stage2[4],
+				),
+				shift=0.08 * UP,
+			),
+			AnimationGroup(
+				*[
+					line.animate.put_start_and_end_on(
+						target.get_start(), target.get_end()
+					)
+					for line, target in zip(
+						table_verticals_stage1, table_verticals_stage2
+					)
+				],
+				lag_ratio=0.0,
+			),
+			LaggedStart(
+				*[GrowFromEdge(line, LEFT) for line in table_dividers_stage2[4:]],
+				lag_ratio=0.12,
+			),
+			run_time=1.1,
+		)
+		table_verticals_stage2 = table_verticals_stage1
+		table_dividers_stage2 = VGroup(
+			*table_dividers_stage1, *table_dividers_stage2[4:]
 		)
 
+		self.next_slide()
 
-		quote_formula = MathTex(
-			r"\mathrm{sortM}(\mathrm{coinCmp}, xs) \to \mathrm{Perm}(xs)",
+		table_final_group = VGroup(
+			*table_headers,
+			table_rows_stage1,
+			table_rows_stage2[1],
+			table_rows_stage2[2],
+			table_rows_stage2[3],
+			table_rows_stage2[4],
+			table_dividers_stage2,
+			table_verticals_stage2,
+		)
+		self.play(FadeOut(table_final_group, shift=0.08 * DOWN), run_time=0.7)
+
+		sort_type = MathTex(
+			r"\mathrm{sort} \colon (\alpha \rightarrow \alpha \rightarrow \mathrm{Bool}) \rightarrow [\alpha] \rightarrow [\alpha]",
 			font_size=44,
 			color=WHITE,
+			substrings_to_isolate=[
+				r"\mathrm{sort}",
+				r"\alpha",
+				r"\mathrm{Bool}",
+				r"\rightarrow",
+				r"\colon",
+			],
 		)
-		quote_formula.move_to(ORIGIN + UP * 0.4)
-		quote_formula_target = MathTex(
-			r"\mathrm{Perm}(xs) \subseteq \mathrm{sortM}(\mathrm{coinCmp}, xs)",
+		sort_type.move_to(ORIGIN)
+		sort_type_m = MathTex(
+			r"\mathrm{sortM} \colon \mathrm{Monad}\,\mu \Rightarrow (\alpha \rightarrow \alpha \rightarrow \mu\,\mathrm{Bool}) \rightarrow [\alpha] \rightarrow \mu\,[\alpha]",
 			font_size=44,
 			color=WHITE,
+			substrings_to_isolate=[
+				r"\mathrm{sortM}",
+				r"\mathrm{Monad}",
+				r"\mu",
+				r"\alpha",
+				r"\mathrm{Bool}",
+				r"\rightarrow",
+				r"\Rightarrow",
+				r"\colon",
+			],
 		)
-		quote_formula_target.move_to(quote_formula.get_center())
+		sort_type_m.move_to(sort_type.get_center())
 
-		self.play(Write(quote_formula), run_time=1.0)
+		self.play(Write(sort_type), run_time=1.0)
 
 		self.next_slide()
 
 		self.play(
-			TransformMatchingTex(quote_formula, quote_formula_target),
+			TransformMatchingTex(sort_type, sort_type_m),
 			run_time=1.0,
 		)
 
 		self.next_slide()
-
-		final_quote_text = Paragraph(
-			'"Every sorting algorithm that actually sorts can describe every',
-			"possible permutation (if there is a permutation that cannot be",
-			"realized by the sorting algorithm then there is an input list",
-			'that cannot be sorted)"',
-			alignment="center",
-			font_size=24,
-			color=WHITE,
-		)
-		final_quote_text.set_max_width(10.6)
-		final_quote_author = Text("Sebastian Fischer", font_size=21, color=BLUE_B)
-		final_quote_block = VGroup(final_quote_text, final_quote_author).arrange(
-			DOWN, buff=0.16
-		)
-
 		self.play(
-			quote_formula_target.animate.shift(UP * 0.45),
-			run_time=0.7,
-		)
-		final_quote_block.next_to(quote_formula_target, DOWN, buff=0.8)
-		self.play(Write(final_quote_block), run_time=1.3)
-
-		
-		self.next_slide()
-		self.play(
-			FadeOut(final_quote_block, shift=0.08 * DOWN),
-			FadeOut(quote_formula_target, shift=0.08 * UP),
+			sort_type_m.animate.to_edge(UP, buff=0.3),
 			run_time=0.7,
 		)
 
-
-		
-
-		
 		COLOR_INDEX = BLUE_C
 		COLOR_DATA = RED_C
 		COLOR_MULTIVERSE = PURPLE_C
 
-		
 		def create_array(elements, box_color=WHITE, text_color=BLACK, scale=1.0):
 			arr = VGroup()
 			for el in elements:
-				box = Square(side_length=0.8, fill_color=box_color, fill_opacity=0.9, stroke_color=WHITE)
+				box = Square(
+					side_length=0.8,
+					fill_color=box_color,
+					fill_opacity=0.9,
+					stroke_color=WHITE,
+				)
 				text = Tex(str(el), color=text_color).scale(1.2)
 				node = VGroup(box, text)
 				arr.add(node)
 			arr.arrange(RIGHT, buff=0.1).scale(scale)
 			return arr
 
-		
 		TL = UP * 1.5 + LEFT * 3.8
 		TR = UP * 1.5 + RIGHT * 3.8
 		BL = DOWN * 1.7 + LEFT * 3.8
 		BR = DOWN * 1.7 + RIGHT * 3.8
 
-		
 		pis = create_array([2, 0, 1], COLOR_INDEX, WHITE, scale=0.8)
 		pis.move_to(TL)
 		label_pis = Tex("Permuted Indices", font_size=28, color=WHITE).next_to(
@@ -2059,7 +2209,6 @@ class Main(Slide):
 
 		self.next_slide()
 
-		
 		iss = create_array([0, 1, 2], COLOR_INDEX, WHITE, scale=0.8)
 		iss.move_to(TR)
 		label_iss = Tex("Sorted Indices", font_size=28, color=WHITE).next_to(
@@ -2067,17 +2216,16 @@ class Main(Slide):
 		)
 
 		arrow_sort = Arrow(pis.get_right(), iss.get_left(), buff=0.4, color=YELLOW)
-		label_sort = Tex(
-			"Deterministic Sort", font_size=30, color=WHITE
-		).next_to(arrow_sort, UP, buff=0.2)
+		label_sort = Tex("Deterministic Sort", font_size=30, color=WHITE).next_to(
+			arrow_sort, UP, buff=0.2
+		)
 
 		self.play(GrowArrow(arrow_sort), FadeIn(label_sort))
 		self.play(FadeIn(VGroup(iss, label_iss)))
 
 		self.next_slide()
 
-		
-		xs = create_array(['C', 'A', 'B'], COLOR_DATA, WHITE, scale=0.8)
+		xs = create_array(["C", "A", "B"], COLOR_DATA, WHITE, scale=0.8)
 		xs.move_to(BL)
 		label_xs = Tex("Input Data ($xs$)", font_size=28, color=WHITE).next_to(
 			xs, DOWN, buff=0.2
@@ -2093,16 +2241,23 @@ class Main(Slide):
 
 		self.next_slide()
 
-		
-		cloud = Ellipse(width=4.8, height=2.8, color=COLOR_MULTIVERSE, fill_opacity=0.15)
+		cloud = Ellipse(
+			width=4.8, height=2.8, color=COLOR_MULTIVERSE, fill_opacity=0.15
+		)
 		cloud.move_to(BR)
 		label_cloud = Tex("Branching Outcomes", color=WHITE, font_size=28).next_to(
 			cloud, DOWN, buff=0.15
 		)
 
-		mini_1 = create_array(['C', 'A', 'B'], COLOR_DATA, WHITE, scale=0.35).move_to(cloud.get_center() + UP * 0.6 + LEFT * 1.0)
-		mini_2 = create_array(['B', 'C', 'A'], COLOR_DATA, WHITE, scale=0.35).move_to(cloud.get_center() + DOWN * 0.6 + RIGHT * 0.8)
-		mini_dots = Tex("...", font_size=48, color=WHITE).move_to(cloud.get_center() + UP * 0.5 + RIGHT * 1.1)
+		mini_1 = create_array(["C", "A", "B"], COLOR_DATA, WHITE, scale=0.35).move_to(
+			cloud.get_center() + UP * 0.6 + LEFT * 1.0
+		)
+		mini_2 = create_array(["B", "C", "A"], COLOR_DATA, WHITE, scale=0.35).move_to(
+			cloud.get_center() + DOWN * 0.6 + RIGHT * 0.8
+		)
+		mini_dots = Tex("...", font_size=48, color=WHITE).move_to(
+			cloud.get_center() + UP * 0.5 + RIGHT * 1.1
+		)
 
 		arrow_permute = Arrow(xs.get_right(), cloud.get_left(), buff=0.4, color=BLUE_C)
 		label_permute = Tex(
@@ -2114,14 +2269,6 @@ class Main(Slide):
 
 		self.next_slide()
 
-		
-		free_theorem_text = Tex(
-			"Parametric Polymorphism (Free Theorem)", font_size=36, color=WHITE
-		)
-		free_theorem_text.to_edge(UP, buff=0.3)
-		self.play(Write(free_theorem_text))
-
-		
 		self.play(
 			arrow_sort.animate.set_color(YELLOW),
 			arrow_rel_L.animate.set_color(BLUE_C),
@@ -2131,7 +2278,6 @@ class Main(Slide):
 
 		self.next_slide()
 
-		
 		arrow_rel_R = Arrow(
 			iss.get_bottom(),
 			cloud.get_top(),
@@ -2146,11 +2292,9 @@ class Main(Slide):
 
 		self.next_slide()
 
-		
-		ys = create_array(['A', 'B', 'C'], COLOR_DATA, WHITE, scale=0.7)
+		ys = create_array(["A", "B", "C"], COLOR_DATA, WHITE, scale=0.7)
 		ys.move_to(cloud.get_center() + DOWN * 0.1)
 
-		
 		self.play(
 			mini_1.animate.set_opacity(0.15),
 			mini_2.animate.set_opacity(0.15),
@@ -2158,7 +2302,6 @@ class Main(Slide):
 			FadeIn(ys, shift=DOWN),
 		)
 
-		
 		highlight_box = SurroundingRectangle(ys, color=YELLOW, buff=0.15)
 		self.play(Create(highlight_box))
 
@@ -2168,13 +2311,16 @@ class Main(Slide):
 			current_labels = [node[1] for node in current_group]
 			target_labels = [node[1] for node in target_group]
 			return LaggedStart(
-				*[ReplacementTransform(current, target) for current, target in zip(current_labels, target_labels)],
+				*[
+					ReplacementTransform(current, target)
+					for current, target in zip(current_labels, target_labels)
+				],
 				lag_ratio=0.18,
 			)
 
 		pis_step1 = create_array([1, 2, 0], COLOR_INDEX, WHITE, scale=0.8)
 		pis_step1.move_to(pis.get_center())
-		ys_step1 = create_array(['B', 'C', 'A'], COLOR_DATA, WHITE, scale=0.7)
+		ys_step1 = create_array(["B", "C", "A"], COLOR_DATA, WHITE, scale=0.7)
 		ys_step1.move_to(ys.get_center())
 
 		self.play(
@@ -2189,7 +2335,7 @@ class Main(Slide):
 
 		pis_step2 = create_array([0, 2, 1], COLOR_INDEX, WHITE, scale=0.8)
 		pis_step2.move_to(pis.get_center())
-		ys_step2 = create_array(['C', 'B', 'A'], COLOR_DATA, WHITE, scale=0.7)
+		ys_step2 = create_array(["C", "B", "A"], COLOR_DATA, WHITE, scale=0.7)
 		ys_step2.move_to(ys.get_center())
 
 		self.play(
@@ -2200,10 +2346,24 @@ class Main(Slide):
 
 		self.next_slide()
 
-		
-		
-		
 		self.play(FadeOut(Group(*self.mobjects), shift=0.08 * DOWN), run_time=0.6)
-		self.wait(0.01)
-		self.next_slide()
 
+		final_quote_text = Paragraph(
+			'"Every sorting algorithm that actually sorts can describe every',
+			"possible permutation (if there is a permutation that cannot be",
+			"realized by the sorting algorithm then there is an input list",
+			'that cannot be sorted)"',
+			alignment="center",
+			font_size=24,
+			color=WHITE,
+		)
+		final_quote_text.set_max_width(10.6)
+		final_quote_author = Text("Sebastian Fischer", font_size=21, color=BLUE_B)
+		final_quote_block = VGroup(final_quote_text, final_quote_author).arrange(
+			DOWN, buff=0.16
+		)
+		final_quote_block.move_to(ORIGIN)
+
+		self.next_slide()
+		self.play(Write(final_quote_block), run_time=1.3)
+		self.wait(0.01)
