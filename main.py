@@ -1471,8 +1471,8 @@ class Main(Slide):
 		)
 		bubble_note.to_edge(DOWN, buff=0.4)
 		bubble_note.set_max_width(11.0)
-		bubble_underline_123_a = Underline(bubble_leaf_123_a, color=RED_C, buff=0.06)
-		bubble_underline_123_b = Underline(bubble_leaf_123_b, color=RED_C, buff=0.06)
+		bubble_underline_123_a = Underline(bubble_leaf_123_a, color=YELLOW_C, buff=0.06)
+		bubble_underline_123_b = Underline(bubble_leaf_123_b, color=YELLOW_C, buff=0.06)
 		bubble_callout_group = VGroup(
 			bubble_note,
 			bubble_underline_123_a,
@@ -1752,36 +1752,59 @@ class Main(Slide):
 		a_le_b = MathTex(r"a \le b", font_size=40, color=WHITE)
 		b_le_c = MathTex(r"b \le c", font_size=40, color=WHITE)
 		a_le_c = MathTex(r"a \le c", font_size=40, color=WHITE)
-		duplicate_text = Text("!!!", font_size=24, color=WHITE)
+		placeholder_leaf_left = MathTex(
+			r"[\cdot,\ \cdot,\ \cdot]", font_size=24, color=WHITE
+		)
 		left_ellipsis_1 = MathTex(r"\cdots", font_size=46, color=GREY_B)
 		left_ellipsis_2 = MathTex(r"\cdots", font_size=46, color=GREY_B)
-		dot_leaf = Dot(radius=0.07, color=WHITE)
+		placeholder_leaf_right = placeholder_leaf_left.copy()
 
 		a_le_b.move_to(LEFT * 0.65 + UP * 2.2)
 		left_ellipsis_1.move_to(LEFT * 2.2 + UP * 0.9)
 		b_le_c.move_to(RIGHT * 0.9 + UP * 0.9)
 		left_ellipsis_2.move_to(LEFT * 0.65 + DOWN * 0.4)
 		a_le_c.move_to(RIGHT * 2.45 + DOWN * 0.4)
-		duplicate_text.move_to(RIGHT * 0.9 + DOWN * 1.7)
-		dot_leaf.move_to(RIGHT * 4.0 + DOWN * 1.7)
+		placeholder_leaf_left.move_to(RIGHT * 0.9 + DOWN * 1.7)
+		placeholder_leaf_right.move_to(RIGHT * 4.0 + DOWN * 1.7)
 
 		line_1_left = Line(
-			a_le_b.get_bottom(), left_ellipsis_1.get_top(), color=RED_C, stroke_width=3
+			a_le_b.get_bottom() + DOWN * 0.06,
+			left_ellipsis_1.get_top() + UP * 0.06,
+			color=RED_C,
+			stroke_width=3,
 		)
 		line_1_right = Line(
-			a_le_b.get_bottom(), b_le_c.get_top(), color=GREEN_B, stroke_width=3
+			a_le_b.get_bottom() + DOWN * 0.06,
+			b_le_c.get_top() + UP * 0.06,
+			color=GREEN_B,
+			stroke_width=3,
 		)
 		line_2_left = Line(
-			b_le_c.get_bottom(), left_ellipsis_2.get_top(), color=RED_C, stroke_width=3
+			b_le_c.get_bottom() + DOWN * 0.06,
+			left_ellipsis_2.get_top() + UP * 0.06,
+			color=RED_C,
+			stroke_width=3,
 		)
 		line_2_right = Line(
-			b_le_c.get_bottom(), a_le_c.get_top(), color=GREEN_B, stroke_width=3
+			b_le_c.get_bottom() + DOWN * 0.06,
+			a_le_c.get_top() + UP * 0.06,
+			color=GREEN_B,
+			stroke_width=3,
 		)
 		line_3_left = Line(
-			a_le_c.get_bottom(), duplicate_text.get_top(), color=RED_C, stroke_width=3
+			a_le_c.get_bottom() + DOWN * 0.06,
+			placeholder_leaf_left.get_top() + UP * 0.06,
+			color=RED_C,
+			stroke_width=3,
 		)
 		line_3_right = Line(
-			a_le_c.get_bottom(), dot_leaf.get_top(), color=GREEN_B, stroke_width=3
+			a_le_c.get_bottom() + DOWN * 0.06,
+			placeholder_leaf_right.get_top() + UP * 0.06,
+			color=GREEN_B,
+			stroke_width=3,
+		)
+		placeholder_leaf_left_underline = Underline(
+			placeholder_leaf_left, color=YELLOW_C, buff=0.06
 		)
 
 		cross = Cross(
@@ -1803,10 +1826,11 @@ class Main(Slide):
 			a_le_b,
 			b_le_c,
 			a_le_c,
-			duplicate_text,
+			placeholder_leaf_left,
+			placeholder_leaf_right,
+			placeholder_leaf_left_underline,
 			left_ellipsis_1,
 			left_ellipsis_2,
-			dot_leaf,
 			line_1_left,
 			line_1_right,
 			line_2_left,
@@ -1834,8 +1858,9 @@ class Main(Slide):
 		self.play(
 			Create(line_3_left),
 			Create(line_3_right),
-			FadeIn(duplicate_text, shift=0.06 * DOWN),
-			FadeIn(dot_leaf, shift=0.04 * DOWN),
+			FadeIn(placeholder_leaf_left, shift=0.06 * DOWN),
+			FadeIn(placeholder_leaf_left_underline, shift=0.03 * DOWN),
+			FadeIn(placeholder_leaf_right, shift=0.04 * DOWN),
 			run_time=0.6,
 		)
 
@@ -1849,7 +1874,8 @@ class Main(Slide):
 			FadeOut(enforce_label, shift=0.05 * LEFT),
 			FadeOut(cross),
 			line_3_left.animate.set_color(GREY_B).set_opacity(0.18),
-			duplicate_text.animate.set_color(GREY_B).set_opacity(0.18),
+			placeholder_leaf_left.animate.set_color(GREY_B).set_opacity(0.18),
+			placeholder_leaf_left_underline.animate.set_color(GREY_B).set_opacity(0.18),
 			run_time=0.8,
 		)
 
@@ -2132,7 +2158,7 @@ class Main(Slide):
 		self.play(FadeOut(table_final_group, shift=0.08 * DOWN), run_time=0.7)
 
 		sort_type = MathTex(
-			r"\mathrm{sort} \colon (\alpha \rightarrow \alpha \rightarrow \mathrm{Bool}) \rightarrow [\alpha] \rightarrow [\alpha]",
+			r"\mathrm{sort}::(\alpha \rightarrow \alpha \rightarrow \mathrm{Bool}) \rightarrow [\alpha] \rightarrow [\alpha]",
 			font_size=44,
 			color=WHITE,
 			substrings_to_isolate=[
@@ -2140,12 +2166,12 @@ class Main(Slide):
 				r"\alpha",
 				r"\mathrm{Bool}",
 				r"\rightarrow",
-				r"\colon",
+				r"::",
 			],
 		)
 		sort_type.move_to(ORIGIN)
 		sort_type_m = MathTex(
-			r"\mathrm{sortM} \colon \mathrm{Monad}\,\mu \Rightarrow (\alpha \rightarrow \alpha \rightarrow \mu\,\mathrm{Bool}) \rightarrow [\alpha] \rightarrow \mu\,[\alpha]",
+			r"\mathrm{sortM}::\mathrm{Monad}\,\mu \Rightarrow (\alpha \rightarrow \alpha \rightarrow \mu\,\mathrm{Bool}) \rightarrow [\alpha] \rightarrow \mu\,[\alpha]",
 			font_size=44,
 			color=WHITE,
 			substrings_to_isolate=[
@@ -2156,10 +2182,10 @@ class Main(Slide):
 				r"\mathrm{Bool}",
 				r"\rightarrow",
 				r"\Rightarrow",
-				r"\colon",
+				r"::",
 			],
 		)
-		sort_type_m.move_to(sort_type.get_center())
+		sort_type_m.move_to(sort_type.get_center() + DOWN * 0.12)
 
 		self.play(Write(sort_type), run_time=1.0)
 
@@ -2172,7 +2198,7 @@ class Main(Slide):
 
 		self.next_slide()
 		self.play(
-			sort_type_m.animate.to_edge(UP, buff=0.3),
+			sort_type_m.animate.to_edge(UP, buff=0.4).scale(0.75),
 			run_time=0.7,
 		)
 
@@ -2365,5 +2391,5 @@ class Main(Slide):
 		final_quote_block.move_to(ORIGIN)
 
 		self.next_slide()
-		self.play(Write(final_quote_block), run_time=1.3)
+		self.play(Write(final_quote_block), run_time=1.6)
 		self.wait(0.01)
