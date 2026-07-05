@@ -7,6 +7,32 @@ from manim_slides import Slide
 from lambda_creature import LambdaCreature
 
 
+# fix manim kerning issue by rendering larger text and scaling it down
+PRESENTATION_TEXT_SCALE = 4
+_ManimText = Text
+_ManimParagraph = Paragraph
+
+
+def Text(*args, **kwargs):
+	font_size = kwargs.get("font_size")
+	if font_size is not None:
+		kwargs["font_size"] = font_size * PRESENTATION_TEXT_SCALE
+	text = _ManimText(*args, **kwargs)
+	if font_size is not None:
+		text.scale(1 / PRESENTATION_TEXT_SCALE)
+	return text
+
+
+def Paragraph(*args, **kwargs):
+	font_size = kwargs.get("font_size")
+	if font_size is not None:
+		kwargs["font_size"] = font_size * PRESENTATION_TEXT_SCALE
+	paragraph = _ManimParagraph(*args, **kwargs)
+	if font_size is not None:
+		paragraph.scale(1 / PRESENTATION_TEXT_SCALE)
+	return paragraph
+
+
 def creature_look_at_animation(creature, point):
 	eye_center = creature.eye_sclera.get_center()
 	direction = point - eye_center
@@ -326,13 +352,12 @@ class Main(Slide):
 
 		divider = Line(UP * 2.6, DOWN * 2.2, color=GREY_B, stroke_width=2)
 
-		bottom_text = Text(
-			"We explore both possibilities and put our results together!",
-			font_size=32,
+		bottom_text = MathTex(
+			r"\text{We explore both possibilities and put our results together!}",
+			font_size=42,
 			color=WHITE,
 		)
 		bottom_text.to_edge(DOWN, buff=0.55)
-		bottom_text.set_max_width(11.0)
 
 		self.play(
 			FadeIn(divider),
@@ -355,12 +380,37 @@ class Main(Slide):
 
 		self.next_slide()
 
+		coin_cmp_signature = MathTex(
+			r"\mathrm{coinCmp}",
+			r"\mathbin{::}",
+			r"\alpha",
+			r"\rightarrow",
+			r"\alpha",
+			r"\rightarrow",
+			r"[\mathrm{Bool}]",
+			font_size=52,
+			color=WHITE,
+			tex_to_color_map={
+				r"\mathrm{coinCmp}": BLUE_B,
+				r"\alpha": BLUE_B,
+				r"\mathrm{Bool}": BLUE_B,
+			},
+		)
+		coin_cmp_signature.move_to(ORIGIN + UP * 0.15)
+
 		self.play(
-			FadeOut(coin_cmp_text, shift=0.1 * UP),
-			FadeOut(divider),
+			ReplacementTransform(coin_cmp_text, coin_cmp_signature),
 			FadeOut(head_block, shift=0.1 * LEFT),
 			FadeOut(tail_block, shift=0.1 * RIGHT),
-			FadeOut(bottom_text, shift=0.1 * DOWN),
+			FadeOut(divider, shift=0.05 * DOWN),
+			run_time=1.2,
+		)
+
+		self.next_slide()
+
+		self.play(
+			FadeOut(coin_cmp_signature, shift=0.1 * UP),
+			FadeOut(bottom_text, shift=0.08 * DOWN),
 			run_time=0.8,
 		)
 
@@ -915,7 +965,7 @@ class Main(Slide):
 		sel_duplicates_text = Text("We get duplicates!", font_size=34, color=WHITE)
 		sel_duplicates_text.to_edge(DOWN, buff=0.35)
 		sel_output_suffix = MathTex(
-			r"= \mathrm{Perm}([2, 3, 1])", font_size=34, color=WHITE
+			r"= \mathrm{Perm}([1, 2, 3])", font_size=34, color=WHITE
 		)
 		sel_output_suffix.move_to(sel_duplicates_text.get_center())
 
@@ -1215,20 +1265,20 @@ class Main(Slide):
 		bubble_x_level3 = 1.8
 		bubble_x_level4 = 0.9
 
-		bubble_x_left = -bubble_x_level2
-		bubble_x_right = bubble_x_level2
-		bubble_x_left_left = bubble_x_left - bubble_x_level3
-		bubble_x_left_right = bubble_x_left + bubble_x_level3
-		bubble_x_right_left = bubble_x_right - bubble_x_level3
-		bubble_x_right_right = bubble_x_right + bubble_x_level3
-		bubble_x_left_left_left = bubble_x_left_left - bubble_x_level4
-		bubble_x_left_left_right = bubble_x_left_left + bubble_x_level4
-		bubble_x_left_right_left = bubble_x_left_right - bubble_x_level4
-		bubble_x_left_right_right = bubble_x_left_right + bubble_x_level4
-		bubble_x_right_left_left = bubble_x_right_left - bubble_x_level4
-		bubble_x_right_left_right = bubble_x_right_left + bubble_x_level4
-		bubble_x_right_right_left = bubble_x_right_right - bubble_x_level4
-		bubble_x_right_right_right = bubble_x_right_right + bubble_x_level4
+		bubble_x_left = bubble_x_level2
+		bubble_x_right = -bubble_x_level2
+		bubble_x_left_left = bubble_x_left + bubble_x_level3
+		bubble_x_left_right = bubble_x_left - bubble_x_level3
+		bubble_x_right_left = bubble_x_right + bubble_x_level3
+		bubble_x_right_right = bubble_x_right - bubble_x_level3
+		bubble_x_left_left_left = bubble_x_left_left + bubble_x_level4
+		bubble_x_left_left_right = bubble_x_left_left - bubble_x_level4
+		bubble_x_left_right_left = bubble_x_left_right + bubble_x_level4
+		bubble_x_left_right_right = bubble_x_left_right - bubble_x_level4
+		bubble_x_right_left_left = bubble_x_right_left + bubble_x_level4
+		bubble_x_right_left_right = bubble_x_right_left - bubble_x_level4
+		bubble_x_right_right_left = bubble_x_right_right + bubble_x_level4
+		bubble_x_right_right_right = bubble_x_right_right - bubble_x_level4
 
 		bubble_cmp_23 = MathTex(r"2 \le 3", font_size=36)
 		bubble_cmp_23.move_to(UP * bubble_level1_y)
@@ -1289,8 +1339,8 @@ class Main(Slide):
 			RIGHT * bubble_x_right_right_right + UP * bubble_level4_y
 		)
 
-		bubble_true_color = GREEN_B
-		bubble_false_color = RED_B
+		bubble_true_color = RED_B
+		bubble_false_color = GREEN_B
 
 		bubble_trunk = Line(
 			bubble_tree_title.get_bottom(),
@@ -1548,7 +1598,7 @@ class Main(Slide):
 
 		bubble_note_final = MathTex(
 			r"= \mathrm{Perm}([1, 2, 3])",
-			font_size=28,
+			font_size=34,
 			color=WHITE,
 		)
 		bubble_note_final.move_to(bubble_note)
@@ -1614,12 +1664,12 @@ class Main(Slide):
 		patience_title = Text("Patience Sort", font_size=38, color=BLUE_B)
 		patience_step1 = Text("Iterates through the list", font_size=24, color=WHITE)
 		patience_step2 = Text(
-			"Divides elements into piles based on ascending values",
+			"Stacks list elements into ascending piles",
 			font_size=24,
 			color=WHITE,
 		)
 		patience_step3 = Text(
-			"Systematically merges piles back together", font_size=24, color=WHITE
+			"Collects piles back together by picking the minimums from top", font_size=24, color=WHITE
 		)
 		patience_step1.set_max_width(9.6)
 		patience_step2.set_max_width(9.6)
@@ -2301,8 +2351,6 @@ class Main(Slide):
 			arrow_permute.animate.set_color(BLUE_C),
 			run_time=1,
 		)
-
-		self.next_slide()
 
 		arrow_rel_R = Arrow(
 			iss.get_bottom(),
