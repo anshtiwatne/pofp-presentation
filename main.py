@@ -1669,7 +1669,9 @@ class Main(Slide):
 			color=WHITE,
 		)
 		patience_step3 = Text(
-			"Collects piles back together by picking the minimums from top", font_size=24, color=WHITE
+			"Collects piles back together by picking the minimums from top",
+			font_size=24,
+			color=WHITE,
 		)
 		patience_step1.set_max_width(9.6)
 		patience_step2.set_max_width(9.6)
