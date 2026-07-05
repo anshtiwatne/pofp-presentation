@@ -218,6 +218,7 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Manim
-media/
-slides/
-index_assets/
+# index.html
+# media/
+# slides/
+# index_assets/
